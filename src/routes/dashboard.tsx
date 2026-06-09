@@ -63,8 +63,8 @@ function Dashboard() {
           className="block rounded-2xl border-2 border-dashed border-saffron/40 bg-saffron/5 p-10 text-center hover:bg-saffron/10 hover:border-saffron transition group"
         >
           <Sparkles className="h-8 w-8 mx-auto text-saffron group-hover:scale-110 transition" />
-          <p className="mt-3 font-display text-xl font-bold text-navy">Create a new generation</p>
-          <p className="mt-1 text-sm text-muted-foreground">Open the ShotWot Brief-Builder</p>
+          <p className="mt-3 font-display text-xl font-bold text-navy">Start a new generation</p>
+          <p className="mt-1 text-sm text-muted-foreground">Open the ShotWot Brief-Builder and tell us what you want</p>
         </Link>
       </div>
     </AppShell>
