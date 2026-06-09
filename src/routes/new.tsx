@@ -28,10 +28,18 @@ function NewGen() {
   const [brief, setBrief] = useState("");
   const [phase, setPhase] = useState<"idle" | "loading" | "done">("idle");
   const [open, setOpen] = useState(false);
+  const [msgIdx, setMsgIdx] = useState(0);
+
+  useEffect(() => {
+    if (phase !== "loading") return;
+    setMsgIdx(0);
+    const id = setInterval(() => setMsgIdx((i) => (i + 1) % loadingMessages.length), 900);
+    return () => clearInterval(id);
+  }, [phase]);
 
   const generate = () => {
     setPhase("loading");
-    setTimeout(() => setPhase("done"), 2500);
+    setTimeout(() => setPhase("done"), 4200);
   };
 
   return (
