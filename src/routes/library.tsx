@@ -19,6 +19,20 @@ const tiles = [
 
 function Library() {
   const [preview, setPreview] = useState<number | null>(null);
+  const [exiting, setExiting] = useState(false);
+
+  const openPreview = (i: number) => {
+    setExiting(false);
+    setPreview(i);
+  };
+  const closePreview = () => {
+    setExiting(true);
+    setTimeout(() => {
+      setPreview(null);
+      setExiting(false);
+    }, 240);
+  };
+
   return (
     <AppShell breadcrumb={["Asset Library"]}>
       <div className="max-w-7xl mx-auto">

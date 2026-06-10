@@ -16,7 +16,20 @@ const tabs = ["All", "Logos", "People", "Facilities", "Marketing"];
 function Vault() {
   const [tab, setTab] = useState("All");
   const [showUpload, setShowUpload] = useState(false);
+  const [uploadExiting, setUploadExiting] = useState(false);
   const filtered = tab === "All" ? seed : seed.filter(a => a.cat === tab);
+
+  const openUpload = () => {
+    setUploadExiting(false);
+    setShowUpload(true);
+  };
+  const closeUpload = () => {
+    setUploadExiting(true);
+    setTimeout(() => {
+      setShowUpload(false);
+      setUploadExiting(false);
+    }, 240);
+  };
 
   return (
     <AppShell breadcrumb={["ShotWot Vault"]}>
