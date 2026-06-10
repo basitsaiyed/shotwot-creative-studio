@@ -97,11 +97,11 @@ function IconBtn({ icon: Icon }: { icon: any }) {
   );
 }
 
-function UploadModal({ onClose }: { onClose: () => void }) {
+function UploadModal({ onClose, exiting }: { onClose: () => void; exiting: boolean }) {
   const [uploaded, setUploaded] = useState(false);
   return (
-    <div className="fixed inset-0 z-50 bg-navy/40 backdrop-blur-sm grid place-items-center p-6">
-      <div className="bg-white rounded-2xl shotwot-shadow max-w-lg w-full p-6 relative">
+    <div className={`fixed inset-0 z-50 bg-navy/40 backdrop-blur-sm grid place-items-center p-6 ${exiting ? "modal-backdrop-exit" : "modal-backdrop-enter"}`}>
+      <div className={`bg-white rounded-2xl shotwot-shadow max-w-lg w-full p-6 relative ${exiting ? "modal-content-exit" : "modal-content-enter"}`}>
         <button onClick={onClose} className="absolute top-4 right-4 text-muted-foreground hover:text-navy"><X className="h-5 w-5" /></button>
         <h2 className="font-display text-xl font-extrabold text-navy">Add to ShotWot Vault</h2>
         <p className="text-sm text-muted-foreground mt-1">Encrypted. Private. Never used for training.</p>

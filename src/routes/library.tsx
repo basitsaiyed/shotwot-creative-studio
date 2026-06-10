@@ -96,10 +96,10 @@ function Library() {
   );
 }
 
-function PreviewModal({ tile, onClose }: { tile: typeof tiles[number]; onClose: () => void }) {
+function PreviewModal({ tile, onClose, exiting }: { tile: typeof tiles[number]; onClose: () => void; exiting: boolean }) {
   return (
-    <div className="fixed inset-0 z-50 bg-navy/50 backdrop-blur-sm grid place-items-center p-6">
-      <div className="bg-white rounded-2xl shotwot-shadow max-w-4xl w-full overflow-hidden relative grid md:grid-cols-[1.5fr_1fr]">
+    <div className={`fixed inset-0 z-50 bg-navy/50 backdrop-blur-sm grid place-items-center p-6 ${exiting ? "modal-backdrop-exit" : "modal-backdrop-enter"}`}>
+      <div className={`bg-white rounded-2xl shotwot-shadow max-w-4xl w-full overflow-hidden relative grid md:grid-cols-[1.5fr_1fr] ${exiting ? "modal-content-exit" : "modal-content-enter"}`}>
         <button onClick={onClose} className="absolute top-4 right-4 z-10 h-9 w-9 grid place-items-center rounded-lg bg-white/90 text-navy hover:bg-white"><X className="h-4 w-4" /></button>
         <div className={`aspect-square md:aspect-auto bg-gradient-to-br ${tile.hue}`} />
         <div className="p-6 flex flex-col">
