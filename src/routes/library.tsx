@@ -19,6 +19,20 @@ const tiles = [
 
 function Library() {
   const [preview, setPreview] = useState<number | null>(null);
+  const [exiting, setExiting] = useState(false);
+
+  const openPreview = (i: number) => {
+    setExiting(false);
+    setPreview(i);
+  };
+  const closePreview = () => {
+    setExiting(true);
+    setTimeout(() => {
+      setPreview(null);
+      setExiting(false);
+    }, 240);
+  };
+
   return (
     <AppShell breadcrumb={["Asset Library"]}>
       <div className="max-w-7xl mx-auto">
@@ -56,7 +70,7 @@ function Library() {
           <div>
             <div className="grid grid-cols-3 gap-4">
               {tiles.map((t, i) => (
-                <button key={i} onClick={() => setPreview(i)} className="group relative aspect-[4/3] rounded-xl overflow-hidden">
+                <button key={i} onClick={() => openPreview(i)} className="group relative aspect-[4/3] rounded-xl overflow-hidden">
                   <div className={`absolute inset-0 bg-gradient-to-br ${t.hue}`} />
                   <span className="absolute bottom-2 left-2 text-[10px] font-bold uppercase tracking-wider bg-white/90 px-2 py-1 rounded text-navy">{t.mood}</span>
                   <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/50 transition grid place-items-center gap-2 opacity-0 group-hover:opacity-100">
@@ -77,15 +91,15 @@ function Library() {
         </div>
       </div>
 
-      {preview !== null && <PreviewModal tile={tiles[preview]} onClose={() => setPreview(null)} />}
+      {preview !== null && <PreviewModal tile={tiles[preview]} onClose={closePreview} exiting={exiting} />}
     </AppShell>
   );
 }
 
-function PreviewModal({ tile, onClose }: { tile: typeof tiles[number]; onClose: () => void }) {
+function PreviewModal({ tile, onClose, exiting }: { tile: typeof tiles[number]; onClose: () => void; exiting: boolean }) {
   return (
-    <div className="fixed inset-0 z-50 bg-navy/50 backdrop-blur-sm grid place-items-center p-6">
-      <div className="bg-white rounded-2xl shotwot-shadow max-w-4xl w-full overflow-hidden relative grid md:grid-cols-[1.5fr_1fr]">
+    <div className={`fixed inset-0 z-50 bg-navy/50 backdrop-blur-sm grid place-items-center p-6 ${exiting ? "modal-backdrop-exit" : "modal-backdrop-enter"}`}>
+      <div className={`bg-white rounded-2xl shotwot-shadow max-w-4xl w-full overflow-hidden relative grid md:grid-cols-[1.5fr_1fr] ${exiting ? "modal-content-exit" : "modal-content-enter"}`}>
         <button onClick={onClose} className="absolute top-4 right-4 z-10 h-9 w-9 grid place-items-center rounded-lg bg-white/90 text-navy hover:bg-white"><X className="h-4 w-4" /></button>
         <div className={`aspect-square md:aspect-auto bg-gradient-to-br ${tile.hue}`} />
         <div className="p-6 flex flex-col">

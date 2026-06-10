@@ -16,7 +16,20 @@ const tabs = ["All", "Logos", "People", "Facilities", "Marketing"];
 function Vault() {
   const [tab, setTab] = useState("All");
   const [showUpload, setShowUpload] = useState(false);
+  const [uploadExiting, setUploadExiting] = useState(false);
   const filtered = tab === "All" ? seed : seed.filter(a => a.cat === tab);
+
+  const openUpload = () => {
+    setUploadExiting(false);
+    setShowUpload(true);
+  };
+  const closeUpload = () => {
+    setUploadExiting(true);
+    setTimeout(() => {
+      setShowUpload(false);
+      setUploadExiting(false);
+    }, 240);
+  };
 
   return (
     <AppShell breadcrumb={["ShotWot Vault"]}>
@@ -28,7 +41,7 @@ function Vault() {
             </h1>
             <p className="mt-1 text-muted-foreground">Your private asset library — never used for AI training.</p>
           </div>
-          <button onClick={() => setShowUpload(true)} className="inline-flex h-11 items-center gap-2 rounded-lg bg-saffron px-5 text-sm font-semibold text-white hover:brightness-105">
+          <button onClick={openUpload} className="inline-flex h-11 items-center gap-2 rounded-lg bg-saffron px-5 text-sm font-semibold text-white hover:brightness-105">
             <Upload className="h-4 w-4" /> Upload Assets
           </button>
         </div>
@@ -59,7 +72,7 @@ function Vault() {
             </div>
           ))}
           {Array.from({ length: Math.max(0, 4 - filtered.length) }).map((_, i) => (
-            <button key={i} onClick={() => setShowUpload(true)}
+            <button key={i} onClick={openUpload}
               className="aspect-square rounded-xl border-2 border-dashed border-border grid place-items-center text-muted-foreground hover:border-saffron hover:text-saffron hover:bg-saffron/5 transition">
               <div className="text-center px-4">
                 <ImagePlus className="h-6 w-6 mx-auto" />
@@ -71,7 +84,7 @@ function Vault() {
         </div>
       </div>
 
-      {showUpload && <UploadModal onClose={() => setShowUpload(false)} />}
+      {showUpload && <UploadModal onClose={closeUpload} exiting={uploadExiting} />}
     </AppShell>
   );
 }
@@ -84,11 +97,11 @@ function IconBtn({ icon: Icon }: { icon: any }) {
   );
 }
 
-function UploadModal({ onClose }: { onClose: () => void }) {
+function UploadModal({ onClose, exiting }: { onClose: () => void; exiting: boolean }) {
   const [uploaded, setUploaded] = useState(false);
   return (
-    <div className="fixed inset-0 z-50 bg-navy/40 backdrop-blur-sm grid place-items-center p-6">
-      <div className="bg-white rounded-2xl shotwot-shadow max-w-lg w-full p-6 relative">
+    <div className={`fixed inset-0 z-50 bg-navy/40 backdrop-blur-sm grid place-items-center p-6 ${exiting ? "modal-backdrop-exit" : "modal-backdrop-enter"}`}>
+      <div className={`bg-white rounded-2xl shotwot-shadow max-w-lg w-full p-6 relative ${exiting ? "modal-content-exit" : "modal-content-enter"}`}>
         <button onClick={onClose} className="absolute top-4 right-4 text-muted-foreground hover:text-navy"><X className="h-5 w-5" /></button>
         <h2 className="font-display text-xl font-extrabold text-navy">Add to ShotWot Vault</h2>
         <p className="text-sm text-muted-foreground mt-1">Encrypted. Private. Never used for training.</p>
